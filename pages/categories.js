@@ -114,7 +114,6 @@ export default function Categories() {
         <hr className="my-8 h-px border-0 bg-gray-300" />
       </div>
     </header>
-
     <div className="overflow-x-auto mx-auto p-4">
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-md border rounded">
         <thead>

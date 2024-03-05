@@ -119,16 +119,16 @@ export default function Categories() {
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-md border rounded">
         <thead>
           <tr>
-            <th className="whitespace-nowrap px-4 py-2 text-gray-900 text-start font-bold">
+            <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
               #
             </th>
-            <th className="whitespace-nowrap px-4 py-2 text-gray-900 text-start font-bold">
+            <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
               Category Name
             </th>
-            <th className="whitespace-nowrap px-4 py-2 text-gray-900 text-start font-bold">
+            <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
               Parent Category
             </th>
-            <th className="px-4 py-2 whitespace-nowrap text-gray-900 text-start font-bold">Status</th>
+            <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">Status</th>
           </tr>
         </thead>
         {categories.map((category, index) => (

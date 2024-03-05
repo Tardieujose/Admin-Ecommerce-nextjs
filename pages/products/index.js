@@ -74,26 +74,32 @@ export default function Product() {
         {products.length === 0 ? (
           <p className="w-full text-center">No products available.</p>
         ) : (
-          <>
-
-          <thead>
-                  <tr className="bg-gray-100">
-                    <th scope="col" className="px-4 py-3">#</th>
-                    <th scope="col" className="px-28 py-3">Product</th>
-                    <th scope="col" className="px-0.1 py-3">Category</th>
-                    <th scope="col" className="px-44 py-3">Price</th>
-                    <th scope="col" className="px-0.1 py-3">Stock</th>
-                    <th scope="col" className="px-48 py-3">Actions</th>
-                  </tr>
-                </thead>
-            <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-md border rounded">
+          <> 
+            <table className="min-w-full divide-y-2  divide-gray-200 bg-white text-md border rounded">
+              <thead>
+                <tr>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
+                    #
+                  </th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
+                    Name
+                  </th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
+                    Category
+                  </th><th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
+                    Price
+                  </th>
+                  <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">Quantity</th>
+                  <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">Actions</th>
+                </tr>          
+              </thead>
               {productsToDisplay.map((product, index) => (
                 <tbody className="divide-y divide-gray-200" key={product._id}>
                   <tr>
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                       {index + 1}
                     </td>
-                    <td className="whitespace-nowrap justify-center px-2 py-2 font-medium text-gray-900 flex items-center  gap-1">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 flex items-center  gap-1">
                       <div class="h-10 w-10">
                         <img
                           class="h-full w-full rounded-full object-cover object-center bg-gray-200"
@@ -104,11 +110,11 @@ export default function Product() {
                       </div>
                       {product.title}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 text-gray-700 max-w-md">{product._id.name}</td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 max-w-md">{product._id.name}</td>
                     {console.log(product.category)}
-                    <td className="whitespace-nowrap px-2 py-2 text-gray-700">ARS$ {formatPrice(product.price)}</td>
-                    <td className="whitespace-nowrap px-2 py-2 text-gray-700">{product.cantidad}</td>
-                    <td className="whitespace-nowrap justify-center px-4 py-2 gap-4 flex">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">ARS$ {formatPrice(product.price)}</td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.cantidad}</td>
+                    <td className="whitespace-nowrap px-4 py-2 gap-4 flex">
                       <Link
                         href={'/products/edit/' + product._id}
                         className="inline-block rounded bg-green-500 px-4 py-2 text-xs font-medium text-white hover:bg-green-700"

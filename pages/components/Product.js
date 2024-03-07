@@ -37,10 +37,11 @@ export default function Product({
 
   useEffect(() => {
     axios.get('/api/categories').then(result => {
-      setCategories(result.data)
-    })
-  }, [])
-
+      setCategories(result.data);
+      console.log(result.data[0].name); // Agrega el console.log aquí
+    });
+  }, []);
+  
   async function createProduct(ev) {
     ev.preventDefault();
 
@@ -109,10 +110,11 @@ export default function Product({
     toast.success('image deleted successfully!!')
   }
 
-
+  
 
   return (
     <div className="mx-auto max-w-2xl">
+      {/* {console.log(data)} */}
       <form onSubmit={createProduct} className="space-y-5">
         {/* Title input */}
         <div className="grid grid-cols-2 items-center my-4">

@@ -1,6 +1,5 @@
 import { useSession } from "next-auth/react"
 import Image from "next/image"
-import BWI from "../../public/BadWolf.png"
 import Link from "next/link"
 import { useRouter } from "next/router";
 import { useState } from "react";

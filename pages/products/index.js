@@ -32,6 +32,16 @@ export default function Product() {
 
   const productsToDisplay = products.slice(startIndex, endIndex);
 
+const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios.get('/api/categories').then(result => {
+      setCategories(result.data);
+    });
+  }, []);
+  console.log(categories);
+  console.log(products.title);
+  // const category = categories.find(cat => cat._id === categoryId);
+
   const changePage = (page) => {
     setCurrentPage(page);
     setLoading(false)
@@ -110,8 +120,12 @@ export default function Product() {
                       </div>
                       {product.title}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 max-w-md">{product._id.name}</td>
-                    {console.log(product.category)}
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700 max-w-md">
+                      {categories.map(category => (
+                        category._id === product.category && category.name
+                      ))}
+                    </td>
+                    {console.log(product._id.name)}
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">ARS$ {formatPrice(product.price)}</td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.cantidad}</td>
                     <td className="whitespace-nowrap px-4 py-2 gap-4 flex">

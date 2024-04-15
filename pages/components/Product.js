@@ -38,7 +38,7 @@ export default function Product({
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
-      console.log(result.data[0].name); // Agrega el console.log aquí
+      console.log(result.data[0].name);
     });
   }, []);
   
@@ -114,7 +114,6 @@ export default function Product({
 
   return (
     <div className="mx-auto max-w-2xl">
-      {/* {console.log(data)} */}
       <form onSubmit={createProduct} className="space-y-5">
         {/* Title input */}
         <div className="grid grid-cols-2 items-center my-4">

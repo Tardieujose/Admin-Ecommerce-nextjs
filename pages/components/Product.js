@@ -37,10 +37,11 @@ export default function Product({
 
   useEffect(() => {
     axios.get('/api/categories').then(result => {
-      setCategories(result.data)
-    })
-  }, [])
-
+      setCategories(result.data);
+      console.log(result.data[0].name);
+    });
+  }, []);
+  
   async function createProduct(ev) {
     ev.preventDefault();
 
@@ -109,7 +110,7 @@ export default function Product({
     toast.success('image deleted successfully!!')
   }
 
-
+  
 
   return (
     <div className="mx-auto max-w-2xl">

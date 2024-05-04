@@ -43,9 +43,9 @@ const Orders = () => {
                   {order.line_items &&
                     order.line_items.map((product) => (
                       <tr key={product.id}>
-                        <td className="py-2 px-4">{product.price_data?.product_data?.name}</td>
+                        <td className="py-2 px-4">{product.name}</td>
                         <td className="py-2 px-4">{product.quantity}</td>
-                        <td className="py-2 px-4">${(product.price_data?.unit_amount / 100).toFixed(2)}</td>
+                        <td className="py-2 px-4">${product.total}</td>
                       </tr>
                     ))}
                 </tbody>

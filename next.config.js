@@ -4,6 +4,9 @@ const nextConfig = {
   images: {
     domains: ['lh3.googleusercontent.com'],
   },
-}
+  server: {
+    port: 3001,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

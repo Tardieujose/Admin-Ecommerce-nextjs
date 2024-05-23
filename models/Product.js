@@ -11,6 +11,7 @@ const ProductSchema = new Schema({
   gender: {type:String},
   images: [{type: String}],
   category: {type:mongoose.Types.ObjectId, ref:'Category'},
+  enabled: { type:Boolean, default: true },
 });
 
 export const Product = models.Product || model('Product', ProductSchema);

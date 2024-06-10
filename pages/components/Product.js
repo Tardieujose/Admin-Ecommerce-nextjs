@@ -10,23 +10,25 @@ export default function Product({
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
+  coin: existingCoin,
   images: existingImages,
   category: selectedCategory,
-  details: existingDetails, // Added details
+  topprod: existingTopprod,
   brand: existingBrand,
   cantidad: existingCantidad,
-  gender: existingGender,
+  enabled: existingEnabled,
   sizes: existingSizes
 
 }) {
   const [title, setTitle] = useState(existingTitle || '');
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
+  const [coin, setCoin] = useState(existingCoin || '');
   const [images, setImages] = useState(existingImages || []);
-  const [details, setDetails] = useState(existingDetails || ''); // Added details
+  const [topprod, setTopprod] = useState(false);
   const [brand, setBrand] = useState(existingBrand || '');
   const [cantidad, setCantidad] = useState(existingCantidad || '');
-  const [gender, setGender] = useState(existingGender || '');
+  const [enabled, setEnabled] = useState(true);
   const [sizes, setSizes] = useState(existingSizes || '');
   const router = useRouter();
   const [redirect, setRedirect] = useState(false);
@@ -53,7 +55,7 @@ export default function Product({
     }
 
     // Now you can make the API request to save the product
-    const data = { title, description, price, details, images, category, brand, gender, sizes, cantidad };
+    const data = { title, description, price, topprod, images, category, coin, brand, enabled, sizes, cantidad };
     if (_id) {
       await axios.put('/api/products', { ...data, _id });
       toast.success('Product updated!!')
@@ -214,7 +216,7 @@ export default function Product({
         </div>
 
         {/* Product Details input */}
-        <div className="grid grid-cols-2 items-center my-4">
+        {/* <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">
             Product Details
           </label>
@@ -229,7 +231,7 @@ export default function Product({
               onChange={(ev) => setDetails(ev.target.value)}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* more details */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -237,7 +239,7 @@ export default function Product({
             <label>Brand</label>
             <input
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
-              placeholder="brand name"
+              placeholder=""
               type="text"
               value={brand}
               onChange={ev => setBrand(ev.target.value)}
@@ -245,27 +247,37 @@ export default function Product({
           </div>
 
           <div>
-            <label>Gender</label>
-            <input
+            <label>ML/MG</label>
+            <select
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
-              placeholder="Gender"
+              placeholder=""
               type="text"
-              value={gender}
-              onChange={ev => setGender(ev.target.value)}
-            />
+              value={sizes}
+              onChange={ev => setSizes(ev.target.value)}
+            >
+              <option value="">Select an option</option>
+              <option value="alto">30/25</option>
+              <option value="mediano">60/3</option>
+              <option value="bajo">N/A</option>
+            </select>
           </div>
+
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label>Sizes</label>
-            <input
+            <label>Coin</label>
+            <select
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
-              placeholder="Sizes, small, large"
+              placeholder=""
               type="text"
-              value={sizes}
-              onChange={ev => setSizes(ev.target.value)}
-            />
+              value={coin}
+              onChange={ev => setCoin(ev.target.value)}
+            >
+              <option value="">Select an option</option>
+              <option value="alto">USD</option>
+              <option value="mediano">ARS</option>
+            </select>
           </div>
 
           <div>
@@ -276,7 +288,8 @@ export default function Product({
               type="number"
               required
               value={cantidad}
-              onChange={ev => setCantidad(ev.target.value)}
+              onChange={ev => setCantidad(Math.max(0, ev.target.value))}
+              min="0" // Agrega el valor mínimo (0) aquí
             />
           </div>
         </div>
@@ -291,7 +304,8 @@ export default function Product({
               placeholder="Price"
               required
               value={price}
-              onChange={ev => setPrice(ev.target.value)}
+              onChange={ev => setPrice(Math.max(0, ev.target.value))}
+              min="0" // Agrega el valor mínimo (0) aquí
             />
           </div>
         </div>

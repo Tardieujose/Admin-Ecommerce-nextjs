@@ -1,7 +1,7 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import img1 from '@/public/product.png'
+import img1 from '@/public/product.png';
 
 // Utility function to format price with a comma for thousands
 const formatPrice = (price) => {
@@ -17,7 +17,6 @@ export default function Product() {
 
   useEffect(() => {
     axios.get('/api/products').then(response => {
-
       setProducts(response.data);
       setLoading(false);
     });
@@ -32,19 +31,54 @@ export default function Product() {
 
   const productsToDisplay = products.slice(startIndex, endIndex);
 
-const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]);
   useEffect(() => {
     axios.get('/api/categories').then(result => {
       setCategories(result.data);
     });
   }, []);
-  console.log(categories);
-  console.log(products.title);
-  // const category = categories.find(cat => cat._id === categoryId);
 
   const changePage = (page) => {
     setCurrentPage(page);
-    setLoading(false)
+    setLoading(false);
+  };
+
+  const handleTopprodChange = async (productId, newTopprod) => {
+    try {
+      const updatedProduct = products.find(product => product._id === productId);
+      if (updatedProduct) {
+        const response = await axios.put('/api/products', {
+          ...updatedProduct,
+          topprod: newTopprod
+        });
+        if (response.data) {
+          setProducts(products.map(product => product._id === productId ? { ...product, topprod: newTopprod } : product));
+        } else {
+          console.error('Error updating product topprod in database!');
+        }
+      }
+    } catch (error) {
+      console.error('Error updating product topprod:', error);
+    }
+  };
+
+  const handleEnabledChange = async (productId, newEnabled) => {
+    try {
+      const updatedProduct = products.find(product => product._id === productId);
+      if (updatedProduct) {
+        const response = await axios.put('/api/products', {
+          ...updatedProduct,
+          enabled: newEnabled
+        });
+        if (response.data) {
+          setProducts(products.map(product => product._id === productId ? { ...product, enabled: newEnabled } : product));
+        } else {
+          console.error('Error updating product enabled in database!');
+        }
+      }
+    } catch (error) {
+      console.error('Error updating product enabled:', error);
+    }
   };
 
   return (
@@ -77,46 +111,36 @@ const [categories, setCategories] = useState([]);
           <hr className="my-8 h-px border-0 bg-gray-300" />
         </div>
       </header>
-      
-      
 
       <div className="overflow-x-auto mx-auto px-4">
         {products.length === 0 ? (
           <p className="w-full text-center">No products available.</p>
         ) : (
-          <> 
-            <table className="min-w-full divide-y-2  divide-gray-200 bg-white text-md border rounded">
+          <>
+            <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-md border rounded">
               <thead>
                 <tr>
-                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
-                    #
-                  </th>
-                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
-                    Name
-                  </th>
-                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
-                    Category
-                  </th><th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">
-                    Price
-                  </th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">#</th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">Name</th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">Category</th>
+                  <th className="whitespace-nowrap bg-bgWolf px-4 py-2 text-gray-900 text-start font-bold">Price</th>
                   <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">Quantity</th>
+                  <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">TP</th>
+                  <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">EN</th>
                   <th className="px-4 py-2 whitespace-nowrap bg-bgWolf text-gray-900 text-start font-bold">Actions</th>
-                </tr>          
+                </tr>
               </thead>
               {productsToDisplay.map((product, index) => (
                 <tbody className="divide-y divide-gray-200" key={product._id}>
                   <tr>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                      {index + 1}
-                    </td>
-                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 flex items-center  gap-1">
-                      <div class="h-10 w-10">
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">{index + 1}</td>
+                    <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 flex items-center gap-1">
+                      <div className="h-10 w-10">
                         <img
-                          class="h-full w-full rounded-full object-cover object-center bg-gray-200"
+                          className="h-full w-full rounded-full object-cover object-center bg-gray-200"
                           src={product.images?.[0] || img1}
                           alt={product.title}
                         />
-
                       </div>
                       {product.title}
                     </td>
@@ -125,9 +149,22 @@ const [categories, setCategories] = useState([]);
                         category._id === product.category && category.name
                       ))}
                     </td>
-                    {console.log(product._id.name)}
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">ARS$ {formatPrice(product.price)}</td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">{product.cantidad}</td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <input
+                        type="checkbox"
+                        checked={product.topprod}
+                        onChange={(e) => handleTopprodChange(product._id, e.target.checked)}
+                      />
+                    </td>
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                      <input
+                        type="checkbox"
+                        checked={product.enabled}
+                        onChange={(e) => handleEnabledChange(product._id, e.target.checked)}
+                      />
+                    </td>
                     <td className="whitespace-nowrap px-4 py-2 gap-4 flex">
                       <Link
                         href={'/products/edit/' + product._id}
@@ -155,9 +192,9 @@ const [categories, setCategories] = useState([]);
                     key={i}
                     onClick={() => changePage(i + 1)}
                     className={`mx-2 px-3 py-2 rounded ${i + 1 === currentPage
-                        ? 'bg-blue-300 text-slate-900'
-                        : 'bg-gray-200 hover:bg-gray-300'
-                      }`}
+                      ? 'bg-blue-300 text-slate-900'
+                      : 'bg-gray-200 hover:bg-gray-300'
+                    }`}
                   >
                     {i + 1}
                   </button>

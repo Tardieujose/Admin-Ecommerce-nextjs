@@ -4,13 +4,14 @@ const ProductSchema = new Schema({
   title: {type:String, required:true},
   description: {type:String, required:true},
   price: {type: Number, required: true},
-  details: {type:String},
+  coin: {type:String, required: true},
+  topprod: { type:Boolean, default: false},
   brand: {type:String},
   cantidad: {type: Number, required: true},
-  sizes: {type:String},
-  gender: {type:String},
+  sizes: {type:String},  
   images: [{type: String}],
   category: {type:mongoose.Types.ObjectId, ref:'Category'},
+  enabled: { type:Boolean, default: true },
 });
 
 export const Product = models.Product || model('Product', ProductSchema);

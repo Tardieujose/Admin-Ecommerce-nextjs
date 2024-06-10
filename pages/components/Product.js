@@ -12,10 +12,10 @@ export default function Product({
   price: existingPrice,
   images: existingImages,
   category: selectedCategory,
-  details: existingDetails, // Added details
+  topprod: existingTopprod,
   brand: existingBrand,
   cantidad: existingCantidad,
-  gender: existingGender,
+  enabled: existingEnabled,
   sizes: existingSizes
 
 }) {
@@ -23,10 +23,10 @@ export default function Product({
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
   const [images, setImages] = useState(existingImages || []);
-  const [details, setDetails] = useState(existingDetails || ''); // Added details
+  const [topprod, setTopprod] = useState(false);
   const [brand, setBrand] = useState(existingBrand || '');
   const [cantidad, setCantidad] = useState(existingCantidad || '');
-  const [gender, setGender] = useState(existingGender || '');
+  const [enabled, setEnabled] = useState(true);
   const [sizes, setSizes] = useState(existingSizes || '');
   const router = useRouter();
   const [redirect, setRedirect] = useState(false);
@@ -53,7 +53,7 @@ export default function Product({
     }
 
     // Now you can make the API request to save the product
-    const data = { title, description, price, details, images, category, brand, gender, sizes, cantidad };
+    const data = { title, description, price, topprod, images, category, brand, enabled, sizes, cantidad };
     if (_id) {
       await axios.put('/api/products', { ...data, _id });
       toast.success('Product updated!!')
@@ -214,7 +214,7 @@ export default function Product({
         </div>
 
         {/* Product Details input */}
-        <div className="grid grid-cols-2 items-center my-4">
+        {/* <div className="grid grid-cols-2 items-center my-4">
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">
             Product Details
           </label>
@@ -229,7 +229,7 @@ export default function Product({
               onChange={(ev) => setDetails(ev.target.value)}
             />
           </div>
-        </div>
+        </div> */}
 
         {/* more details */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -244,16 +244,18 @@ export default function Product({
             />
           </div>
 
-          <div>
-            <label>Gender</label>
-            <input
-              className="w-full rounded-lg border border-gray-200 p-3 text-sm"
-              placeholder="Gender"
-              type="text"
-              value={gender}
-              onChange={ev => setGender(ev.target.value)}
-            />
-          </div>
+          {/* <div>
+          <label className="flex items-center">
+        <input
+          type="checkbox"
+          className="w-4 h-4 text-blue-600 border-gray-200 rounded focus:ring-blue-500"
+          checked={enabled}
+          onChange={ev => setEnabled(ev.target.checked)}
+        />
+        <span className="ml-2 text-sm">Enabled</span>
+      </label>
+          
+          </div> */}
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

@@ -275,8 +275,8 @@ export default function Product({
               onChange={ev => setCoin(ev.target.value)}
             >
               <option value="">Select an option</option>
-              <option value="alto">USD</option>
-              <option value="mediano">ARS</option>
+              <option value="USD">USD</option>
+              <option value="ARS">ARS</option>
             </select>
           </div>
 

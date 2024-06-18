@@ -256,9 +256,9 @@ export default function Product({
               onChange={ev => setSizes(ev.target.value)}
             >
               <option value="">Select an option</option>
-              <option value="alto">30/25</option>
-              <option value="mediano">60/3</option>
-              <option value="bajo">N/A</option>
+              <option value="30/25">30/25</option>
+              <option value="60/3">60/3</option>
+              <option value="N/A">N/A</option>
             </select>
           </div>
 

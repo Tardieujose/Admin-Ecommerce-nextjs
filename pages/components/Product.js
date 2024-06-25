@@ -10,6 +10,7 @@ export default function Product({
   title: existingTitle,
   description: existingDescription,
   price: existingPrice,
+  reprice: existingReprice,
   coin: existingCoin,
   images: existingImages,
   category: selectedCategory,
@@ -23,6 +24,7 @@ export default function Product({
   const [title, setTitle] = useState(existingTitle || '');
   const [description, setDescription] = useState(existingDescription || '');
   const [price, setPrice] = useState(existingPrice || '');
+  const [reprice, setReprice] = useState(existingReprice || '');
   const [coin, setCoin] = useState(existingCoin || '');
   const [images, setImages] = useState(existingImages || []);
   const [topprod, setTopprod] = useState(false);
@@ -55,7 +57,7 @@ export default function Product({
     }
 
     // Now you can make the API request to save the product
-    const data = { title, description, price, topprod, images, category, coin, brand, enabled, sizes, cantidad };
+    const data = { title, description, price, reprice, topprod, images, category, coin, brand, enabled, sizes, cantidad };
     if (_id) {
       await axios.put('/api/products', { ...data, _id });
       toast.success('Product updated!!')
@@ -236,10 +238,10 @@ export default function Product({
         {/* more details */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label>Brand</label>
+            <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Brand</label>
             <input
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
-              placeholder=""
+              placeholder="Marca"
               type="text"
               value={brand}
               onChange={ev => setBrand(ev.target.value)}
@@ -247,7 +249,7 @@ export default function Product({
           </div>
 
           <div>
-            <label>ML/MG</label>
+            <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">ML/MG</label>
             <select
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
               placeholder=""
@@ -266,7 +268,7 @@ export default function Product({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label>Coin</label>
+            <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Coin</label>
             <select
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
               placeholder=""
@@ -281,7 +283,7 @@ export default function Product({
           </div>
 
           <div>
-            <label>Cantidad</label>
+            <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Cantidad</label>
             <input
               className="w-full rounded-lg border border-gray-200 p-3 text-sm"
               placeholder="cantidad"
@@ -294,28 +296,36 @@ export default function Product({
           </div>
         </div>
 
-        {/* Price input */}
-        <div className="grid grid-cols-2 items-center my-4">
+        {/* Re Price input */}
+        <div className="grid grid-cols-2 gap-4 items-center my-4">
+          <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Reseller Price</label>
           <label className="col-span-1 block text-lg font-medium text-gray-700 mb-3">Price</label>
-          <div className="col-span-2">
-            <input
-              type="number"
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 border p-3"
-              placeholder="Price"
-              required
-              value={price}
-              onChange={ev => setPrice(Math.max(0, ev.target.value))}
-              min="0" // Agrega el valor mínimo (0) aquí
-            />
-          </div>
+          <input
+            type="number"
+            className="col-span-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 border p-3"
+            placeholder="Reseller Price"
+            required
+            value={reprice}
+            onChange={ev => setReprice(Math.max(0, ev.target.value))}
+            min="0"
+          />
+          {/* Price input */}
+          <input
+            type="number"
+            className="col-span-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary-400 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-50 disabled:text-gray-500 border p-3"
+            placeholder="Price"
+            required
+            value={price}
+            onChange={ev => setPrice(Math.max(0, ev.target.value))}
+            min="0"
+          />
         </div>
-
         {/* Save button */}
         <div className="items-center my-4">
           <div className="col-span-2 col-start-2">
             <button
               type="submit"
-              className="rounded-lg border border-slate-500 bg-primary-500 px-5 py-2.5 text-center text-sm font-medium text-black shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300"
+              className="rounded-lg border mt-6 border-slate-500 bg-primary-500 px-5 py-2.5 text-center text-sm font-medium text-black shadow-sm transition-all hover:border-primary-700 hover:bg-primary-700 focus:ring focus:ring-primary-200 disabled:cursor-not-allowed disabled:border-primary-300 disabled:bg-primary-300"
             >
               Save Product
             </button>

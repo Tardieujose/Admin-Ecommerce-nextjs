@@ -10,8 +10,24 @@ const Orders = () => {
     });
   }, []);
 
-  const calculateTotalPrice = (line_items) => {
-    return line_items.reduce((total, item) => total + item.total, 0);
+  const calculateTotalPrice = (line_items, dollarBluePrice) => {
+    return line_items.reduce((total, item) => {
+      if (item.coin === "USD") {
+        return total + item.total * dollarBluePrice;
+      } else {
+        return total + item.total;
+      }
+    }, 0);
+  };
+
+  const calculateGainPrice = (line_items, dollarBluePrice) => {
+    return line_items.reduce((total, item) => {
+      if (item.coin === "USD") {
+        return total + item.total * dollarBluePrice - item.reprice * dollarBluePrice;
+      } else {
+        return total + item.total - item.reprice;
+      }
+    }, 0);
   };
 
   return (
@@ -26,6 +42,7 @@ const Orders = () => {
                 <h3 className="text-gray-600 mb-2">Id: {order._id}</h3>
                 <h3 className="text-md font-medium mb-2">By: {order.name}</h3>
                 <h3 className="text-md font-medium mb-2">Email: {order.email}</h3>
+                <h3 className="text-md font-medium mb-2">Dollar Price: ${order.dollarBluePrice}</h3>
               </div>
               <div>
                 <h3 className="text-md font-medium mb-2">Country: {order.country}</h3>
@@ -49,13 +66,23 @@ const Orders = () => {
                       <tr key={product.id}>
                         <td className="py-2 px-4">{product.name}</td>
                         <td className="py-2 pl-44">{product.quantity}</td>
-                        <td className="py-2 pl-44">${product.total}</td>
+                        <td className="py-2 pl-44">
+                          ${product.coin === "USD" ? product.total * order.dollarBluePrice : product.total}
+                        </td>
                       </tr>
                     ))}
                   <tr className="font-semibold bg-colWolf">
-                    <td className="py-2 px-4"></td>
-                    <td className="py-2 px-4 text-bgWolf">Total</td>
-                    <td className="py-2 pl-44 text-bgWolf">${calculateTotalPrice(order.line_items)}</td>
+                    <td className="py-2 px-4 text-blue-500"></td>
+                    <td className="py-2 px-4 text-bgWolf">TOTAL</td>
+                    <td className="py-2 pl-44 text-bgWolf">${calculateTotalPrice(order.line_items, order.dollarBluePrice)}</td>
+                  </tr>
+                  <tr className="font-semibold bg-colWolf">
+                    <td className="py-2 px-4 text-bgWolf"></td>
+                    <td className="py-2 px-4 text-bgWolf">GANANCIA</td>
+                    <td className="py-2 pl-44 text-blue-500">
+                      ${calculateGainPrice(order.line_items, order.dollarBluePrice)}{' - '}
+                      ({((calculateGainPrice(order.line_items, order.dollarBluePrice) / calculateTotalPrice(order.line_items, order.dollarBluePrice)) * 100).toFixed(2)}%)
+                    </td>
                   </tr>
                 </tbody>
               </table>

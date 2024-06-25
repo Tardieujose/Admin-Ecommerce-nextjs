@@ -10,6 +10,10 @@ const Orders = () => {
     });
   }, []);
 
+  const calculateTotalPrice = (line_items) => {
+    return line_items.reduce((total, item) => total + item.total, 0);
+  };
+
   return (
     <div className="p-4">
       <h1 className="text-3xl font-bold mb-4">Orders</h1>
@@ -34,9 +38,9 @@ const Orders = () => {
               <table className="w-full table-auto border-collapse border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100">
-                    <th className="py-2 px-4">Product</th>
-                    <th className="py-2 px-4">Quantity</th>
-                    <th className="py-2 px-4">Price</th>
+                    <th className="py-2 pr-40">Product</th>
+                    <th className="py-2 pr-18">Quantity</th>
+                    <th className="py-2 pr-4">Price</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,10 +48,15 @@ const Orders = () => {
                     order.line_items.map((product) => (
                       <tr key={product.id}>
                         <td className="py-2 px-4">{product.name}</td>
-                        <td className="py-2 px-4">{product.quantity}</td>
-                        <td className="py-2 px-4">${product.total}</td>
+                        <td className="py-2 pl-44">{product.quantity}</td>
+                        <td className="py-2 pl-44">${product.total}</td>
                       </tr>
                     ))}
+                  <tr className="font-semibold bg-colWolf">
+                    <td className="py-2 px-4"></td>
+                    <td className="py-2 px-4 text-bgWolf">Total</td>
+                    <td className="py-2 pl-44 text-bgWolf">${calculateTotalPrice(order.line_items)}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>

@@ -209,7 +209,7 @@ export default function Home() {
         <h1
           className="mt-6 text-2xl font-bold text-bgWolf sm:text-3xl md:text-4xl"
         >
-          Bad Wolf Admin Panel
+          Ecommerce Admin Panel
         </h1>
 
         <p className="mt-4 leading-relaxed text-colWolf max-w-sm">
